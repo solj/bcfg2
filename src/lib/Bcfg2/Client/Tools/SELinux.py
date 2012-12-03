@@ -375,7 +375,7 @@ class SELinuxEntryHandler(object):
 class SELinuxSebooleanHandler(SELinuxEntryHandler):
     """ handle SELinux boolean entries """
     etype = "boolean"
-    value_format = (None, "value")
+    value_format = ("value",)
 
     @property
     def all_records(self):
