@@ -81,10 +81,10 @@ class SELinux(Bcfg2.Client.Tools.Tool):
         Bcfg2.Client.Tools.Tool.__init__(self, logger, setup, config)
         self.handlers = {}
         for handler in self.__handles__:
-            e = handler[0]
-            self.handlers[e] = \
-                globals()["SELinux%sHandler" % e.title()](self, logger,
-                                                          setup, config)
+            etype = handler[0]
+            self.handlers[etype] = \
+                globals()["SELinux%sHandler" % etype.title()](self, logger,
+                                                              setup, config)
         self.txn = False
         self.post_txn_queue = []
 
@@ -286,7 +286,7 @@ class SELinuxEntryHandler(object):
         """ return a string that should be unique amongst all entries
         in the specification.  some entry types are not universally
         disambiguated by tag:type:name alone """
-        return ":".join([entry.tag, entry.get("type", "None"), entry.get("name")])
+        return ":".join([entry.tag, entry.get("name")])
 
     def exists(self, entry):
         """ return True if the entry already exists in the record list """
@@ -563,7 +563,7 @@ class SELinuxSefcontextHandler(SELinuxEntryHandler):
                 '', '')
 
     def primarykey(self, entry):
-        return ":".join([entry.tag, self.etype, entry.get("name"),
+        return ":".join([entry.tag, entry.get("name"),
                          entry.get("filetype", "all")])
 
 
@@ -815,12 +815,10 @@ class SELinuxSemoduleHandler(SELinuxEntryHandler):
     def Install(self, entry, _=None):
         if not self.filetool.install(self._pathentry(entry)):
             return False
-        if hasattr(self, '_records'):
+        if hasattr(seobject, 'moduleRecords'):
             # if seobject has the moduleRecords attribute, install the
             # module using the seobject library
-            self.records  # pylint: disable=W0104
-            rv = self._install_seobject(entry)
-            return rv
+            return self._install_seobject(entry)
         else:
             # seobject doesn't have the moduleRecords attribute, so
             # install the module using `semodule`
