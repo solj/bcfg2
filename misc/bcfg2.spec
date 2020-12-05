@@ -391,7 +391,7 @@ This package includes the examples files for Bcfg2.
 
 
 %prep
-%setup -q -n %{name}-%{version}%{?_pre_rc}
+%setup -q -n %{name}-%{version}
 
 # The pylint and pep8 unit tests fail on RH-derivative distros
 %if "%{_vendor}" == "redhat"
