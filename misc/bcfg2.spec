@@ -2,10 +2,6 @@
 %if 0%{?suse_version}
 %global python_version %{py_ver}
 %{!?_initrddir: %global _initrddir %{_sysconfdir}/rc.d/init.d}
-# openSUSE < 11.2
-%if %{suse_version} < 1120
-%global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")
-%endif
 %endif
 
 # For -pre or -rc releases, remove the initial <hash><percent>
