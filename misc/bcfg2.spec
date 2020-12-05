@@ -1,9 +1,3 @@
-# Fedora 13+ and EL6 contain these macros already; only needed for EL5
-%if 0%{?rhel} && 0%{?rhel} <= 5
-%global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")
-%define python_version %(%{__python} -c 'import sys;print(sys.version[0:3])')
-%endif
-
 # openSUSE macro translation
 %if 0%{?suse_version}
 %global python_version %{py_ver}
@@ -102,22 +96,14 @@ BuildRequires:    python-mock
 %endif # rhel > 5
 %endif # vendor != redhat || rhel defined
 %endif # ! suse_version
-%if 0%{?fedora} && 0%{?fedora} >= 16 || 0%{?rhel} && 0%{?rhel} >= 7
 # Pick up _unitdir macro
 BuildRequires:    systemd
-%endif
 
 
 %if 0%{?mandriva_version}
 # mandriva seems to behave differently than other distros and needs
 # this explicitly.
 BuildRequires:    python-setuptools
-%endif
-%if 0%{?mandriva_version} == 201100
-# mandriva 2011 has multiple providers for libsane, so (at least when
-# building on OBS) one must be chosen explicitly: "have choice for
-# libsane.so.1 needed by python-imaging: libsane1 sane-backends-iscan"
-BuildRequires:    libsane1
 %endif
 
 # RHEL 5 and 6 ship with sphinx 0.6, but sphinx 1.0 is available with
@@ -131,9 +117,7 @@ BuildRequires:    python-sphinx >= 1.0
 %endif
 BuildRequires:    python-docutils
 
-%if 0%{?fedora} >= 16
 BuildRequires:    systemd-units
-%endif
 
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:         python-ssl
@@ -142,16 +126,9 @@ Requires:         libselinux-python
 Requires:         pylibacl
 Requires:         python-argparse
 
-%if 0%{?fedora} >= 16
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
 Requires(postun): systemd-units
-%else
-Requires(post):   /sbin/chkconfig
-Requires(preun):  /sbin/chkconfig
-Requires(preun):  /sbin/service
-Requires(postun): /sbin/service
-%endif
 
 %if "%{_vendor}" != "redhat"
 # fedora and rhel (and possibly other distros) do not know this tag.
@@ -209,19 +186,10 @@ Requires:         /usr/bin/openssl
 Requires:         graphviz
 Requires:         python-nose
 
-%if "%{_vendor}" == "redhat"
-%if 0%{?fedora} >= 16
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
 Requires(postun): systemd-units
 Requires(post):   systemd-sysv
-%else
-Requires(post):   /sbin/chkconfig
-Requires(preun):  /sbin/chkconfig
-Requires(preun):  /sbin/service
-Requires(postun): /sbin/service
-%endif
-%endif
 
 
 %description server
@@ -535,12 +503,6 @@ rm -r %{buildroot}%{_datadir}/bcfg2/reports.wsgi \
 # mandriva cannot handle %ghost without the file existing,
 # so let's touch a bunch of empty config files
 touch %{buildroot}%{_sysconfdir}/bcfg2.conf
-
-%if 0%{?rhel} == 5
-# Required for EL5
-%clean
-rm -rf %{buildroot}
-%endif
 
 
 %if 0%{?rhel} != 5
