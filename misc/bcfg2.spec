@@ -419,14 +419,14 @@ sed -i "s/apache2/httpd/g" misc/apache/bcfg2.conf
 
 
 %build
-%{py3_build}
+%py3_build
 #%{?pythonpath: PYTHONPATH="%{pythonpath}"} \
 #    %{python3} setup.py build_sphinx
 
 
 %install
 #%{python3} setup.py install -O1 --skip-build --root=%{buildroot} --prefix=/usr
-%{py3_install}
+%py3_install
 install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_sbindir}
 install -d %{buildroot}%{_initrddir}
