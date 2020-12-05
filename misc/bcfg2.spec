@@ -420,7 +420,8 @@ sed -i "s/apache2/httpd/g" misc/apache/bcfg2.conf
 
 %build
 %{py3_build}
-%{python3} setup.py build_sphinx
+#%{?pythonpath: PYTHONPATH="%{pythonpath}"} \
+#    %{python3} setup.py build_sphinx
 
 
 %install
