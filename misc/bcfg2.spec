@@ -43,7 +43,7 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}%{?_pre_rc}-%{release}-root-%(%{
 BuildArch:        noarch
 
 BuildRequires:    python
-BuildRequires:    python-devel
+BuildRequires:    python3-devel
 BuildRequires:    python-lxml
 BuildRequires:    python-boto
 BuildRequires:    python-argparse
