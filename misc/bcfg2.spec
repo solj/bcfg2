@@ -209,7 +209,7 @@ Requires:         /usr/bin/openssl
 Requires:         graphviz
 Requires:         python-nose
 
-%if %{_vendor} == redhat
+%if %{_vendor} == "redhat"
 %if 0%{?fedora} >= 16
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
