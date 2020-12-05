@@ -419,18 +419,14 @@ sed -i "s/apache2/httpd/g" misc/apache/bcfg2.conf
 
 
 %build
-%{__python} setup.py build
-%{?pythonpath: PYTHONPATH="%{pythonpath}"} \
-    %{__python} setup.py build_sphinx
+%{py3_build}
+#%{?pythonpath: PYTHONPATH="%{pythonpath}"} \
+#    %{__python} setup.py build_sphinx
 
 
 %install
-%if 0%{?rhel} == 5 || 0%{?suse_version}
-# EL5 and OpenSUSE require the buildroot to be cleaned manually
-rm -rf %{buildroot}
-%endif
-
-%{__python} setup.py install -O1 --skip-build --root=%{buildroot} --prefix=/usr
+#%{__python} setup.py install -O1 --skip-build --root=%{buildroot} --prefix=/usr
+%{py3_install}
 install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_sbindir}
 install -d %{buildroot}%{_initrddir}
@@ -509,7 +505,7 @@ sed -i "s@schema_url = .*\$@schema_url = 'file://`pwd`/`basename %{SOURCE1}`'@" 
     testsuite/Testschema/test_schema.py
 sed "s@http://www.w3.org/2001/xml.xsd@file://$(pwd)/schemas/xml.xsd@" \
     %{SOURCE1} > `basename %{SOURCE1}`
-%{__python} setup.py test
+%{python3} setup.py test
 %endif
 
 
