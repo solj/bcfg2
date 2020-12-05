@@ -35,8 +35,8 @@ License:          BSD
 URL:              http://bcfg2.org
 Source0:          ftp://ftp.mcs.anl.gov/pub/bcfg/%{name}-%{version}%{?_pre_rc}.tar.gz
 # Used in %%check
-Source1:          http://www.w3.org/2001/XMLSchema.xsd
-%if %{?rhel}%{!?rhel:10} <= 5 || 0%{?suse_version}
+Source1:          https://www.w3.org/2001/XMLSchema.xsd
+%if 0%{?suse_version}
 # EL5 and OpenSUSE require the BuildRoot tag
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{?_pre_rc}-%{release}-root-%(%{__id_u} -n)
 %endif
